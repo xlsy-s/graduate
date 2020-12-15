@@ -5,4 +5,8 @@
     <select id="findByName" resultType="com.graduate.pojo.Users">
         select * from users where username=#{username};
     </select>
+    <!--通过电话去查询-->
+    <select id="findByPhone" resultType="com.graduate.pojo.Users">
+        select * from users where phone = #{phone};
+    </select>
 </mapper>

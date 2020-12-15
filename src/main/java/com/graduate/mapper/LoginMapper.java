@@ -12,4 +12,11 @@ public interface LoginMapper {
      * @return
      */
     Users findByName(@Param("username") String username);
+
+    /**
+     * 通过电话去查询用户
+     * @param phone
+     * @return
+     */
+    Users findByPhone(@Param("phone") String phone);
 }

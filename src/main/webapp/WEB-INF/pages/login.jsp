@@ -79,14 +79,14 @@
                 <div class="col-lg-4"></div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <a href="#" type="button" class="btn btn-primary btn-block btn-flat">忘记密码</a>
+                    <input type="button" value="重置" class="btn btn-danger btn-block btn-flat"/>
                 </div>
                 <!-- /.col -->
             </div>
         </form>
         <!-- /.social-auth-links -->
         <a href="${pageContext.request.contextPath}/register/page" class="text-center">新用户注册</a>
-        <a href="#" style="float: right">忘记用户名</a><br>
+        <a href="#" style="float: right">忘记密码</a><br>
     </div>
     <!-- /.login-box-body -->
 </div>
@@ -134,6 +134,15 @@
                 })
                 return false;
             }
+
+        })
+        // 重置事件
+        $('input[type=button]').click(function () {
+            let info = $('input[class="form-control"]')
+            $(info).each(function () {
+                this.value="";
+            })
+            layer.msg("重置成功！");
         })
     });
 </script>
