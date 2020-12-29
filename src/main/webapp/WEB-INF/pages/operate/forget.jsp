@@ -11,7 +11,7 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>登录页面</title>
+    <title>注册页面</title>
     <meta name="description" content="AdminLTE2定制版">
     <meta name="keywords" content="AdminLTE2定制版">
 
@@ -53,49 +53,46 @@
     <script src="/static/plugins/iCheck/icheck.min.js"></script>
     <script src="/static/plugins/layer/layer.js"></script>
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
-
-        <b>用户</b>登录
+<body class="hold-transition register-page">
+<div class="register-box">
+    <div class="register-logo">
+        <b>忘记</b>密码
     </div>
-    <!-- /.login-logo -->
-    <div class="login-box-body">
-        <p class="login-box-msg">登录系统</p>
-        <form  id="form">
+    <div class="register-box-body">
+        <form method="post" id="forget">
             <div class="form-group has-feedback">
-                <input type="text" name="userName" id="username" class="form-control" autocomplete="off" placeholder="请输入用户名/电话号码">
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                <input type="text" title="电话" id="phone" name="phone" class="form-control" placeholder="手机号" autocomplete="off">
+                <span class="glyphicon glyphicon-phone form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" name="passWord" id="password" class="form-control" placeholder="请输入密码">
+                <input type="password" title="新密码" id="passwd" name="password" class="form-control" placeholder="新密码">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
-
+            <div class="form-group has-feedback">
+                <input type="password" title="确认密码" id="passwds" name="passwords" class="form-control" placeholder="确认密码">
+                <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+            </div>
             <div class="row">
-                <div class="col-xs-4">
-                    <input type="submit" value="登录" class="btn btn-primary btn-block btn-flat"/>
-                </div>
-                <div class="col-lg-4"></div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <input type="button" value="重置" class="btn btn-danger btn-block btn-flat"/>
+                    <input  type="submit" value="更改密码" class="btn btn-primary btn-block btn-flat"/>
                 </div>
+                <div class="col-xs-4"></div>
                 <!-- /.col -->
+                <div class="col-xs-4">
+                    <input  type="reset" value="重置" class="btn btn-danger btn-block btn-flat"/>
+                </div>
             </div>
         </form>
-        <!-- /.social-auth-links -->
-        <a href="${pageContext.request.contextPath}/register/page" class="text-center">新用户注册</a>
-        <a href="#" style="float: right">忘记密码</a><br>
+        <div class="row">
+            <div class="col-lg-4" style="padding-top: 2px;position: absolute;">
+                <a href="login.html">返回登录页</a>
+            </div>
+        </div>
     </div>
-    <!-- /.login-box-body -->
+    <!-- /.form-box -->
 </div>
-<!-- /.login-box -->
-
-<!-- jQuery 2.2.3 -->
-<!-- Bootstrap 3.3.6 -->
-<!-- iCheck -->
-
+<!-- /.register-box -->
 <script>
     $(function() {
         $('input').iCheck({
@@ -103,48 +100,63 @@
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
         });
+        // 正则
+        // 手机
+        let phone = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
+        // 密码
+        let pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;
+        let Re = [phone,pPattern]
+        let prompt = [
+            "不合法，请检测后再次输入",
+            "最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符"]
         $('input[type=submit]').click(function () {
-            let username = $('#username').val();
-            let password = $('#password').val();
-            if(username.length===0){
-                layer.msg("用户名不能为空");
-                $('#username').focus();
+            // 判断表单是否为空与是否合法
+            let information = $("input[class='form-control']")
+            for(let i = 0;i<information.length;i++){
+                // 判断表单是否为空
+                if(information[i].value.length===0){
+                    layer.msg(information[i].title+"不能为空！");
+                    information[i].focus();
+                    return false;
+                }
+                // 判断表单是否合法
+                else if(information.val().length != 0){
+                    if(!information[i].value.match(Re[i])){
+                        layer.msg(information[i].title+prompt[i])
+                        information[i].focus();
+                        return false;
+                    }
+                }
+            }
+            // 密码
+            let passwd = $('#passwd');
+            // 确定密码
+            let passwds = $('#passwds');
+            if (passwd.val() != passwds.val()) {
+                alert("两次密码不一致！请检查后重试！")
+                $('#passwds').focus();
                 return false;
             }
-            else if(password.length===0){
-                layer.msg("密码不能为空");
-                $('#password').focus();
-                return false;
-            }
+            // 如果表单不为空并且合法两次密码都相同就发动ajax请求
             else{
                 $.ajax({
-                    type:"post",
-                    url:'${pageContext.request.contextPath}/login/Login',
-                    data:$("#form").serializeArray(),
-                    dataType:"json",
-                    success:function (data){
-                        layer.msg(data.msg,function (){
+                    type:'post',
+                    url:"${pageContext.request.contextPath}/forget/update",
+                    data: $('#forget').serializeArray(),
+                    dataType:'json',
+                    success:function (data) {
+                        layer.msg(data.msg,function () {
                             if(data.code===200){
-                                if(data.data===3){
-                                    location.href="${pageContext.request.contextPath}/index/page";
-                                }
+                                location.href="${pageContext.request.contextPath}/login/page";
                             }
                         })
                     }
                 })
                 return false;
             }
-
-        })
-        // 重置事件
-        $('input[type=button]').click(function () {
-            let info = $('input[class="form-control"]')
-            $(info).each(function () {
-                this.value="";
-            })
-            layer.msg("重置成功！");
         })
     });
+
 </script>
 </body>
 

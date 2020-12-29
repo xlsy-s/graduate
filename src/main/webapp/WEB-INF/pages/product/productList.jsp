@@ -206,7 +206,6 @@
 
         <!-- 正文区域 -->
         <section class="content">
-
             <!-- .box-body -->
             <div class="box box-primary">
                 <div class="box-header with-border">

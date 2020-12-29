@@ -28,11 +28,11 @@ public class LoginServiceImpl implements LoginService {
          * 编写业务层
          */
         // 判断用户名的长度是否为11 是就用电话去数据中查找数据
-        if (users.getUserName().length() == 11) {
-            Users dbUsers = loginMapper.findByPhone(users.getUserName());
+        if (users.getUsername().length() == 11) {
+            Users dbUsers = loginMapper.findByPhone(users.getUsername());
             return info(dbUsers, users, session);
         } else { // 不是则通过用户名去查询
-            Users dbUsers = loginMapper.findByName(users.getUserName());
+            Users dbUsers = loginMapper.findByName(users.getUsername());
             return info(dbUsers, users, session);
         }
     }
@@ -51,17 +51,11 @@ public class LoginServiceImpl implements LoginService {
             return new ResultDao(1001, "用户名错误");
         }
         // 判断密码是否一致
-        if (!users.getPassWord().equals(dbUsers.getPassWord())) {
+        if (!users.getPassword().equals(dbUsers.getPassword())) {
             return new ResultDao(1002, "密码错误");
         }
         // 设置session值
-        session.setAttribute("username", users.getUserName());
-        // 判断权限
-        if (dbUsers.getPower() == 1) {
-            return new ResultDao(200, "欢迎您！普通用户" + dbUsers.getUserName(), 1);
-        } else if (dbUsers.getPower() == 2) {
-            return new ResultDao(200, "欢迎您!vip用户" + dbUsers.getUserName(), 2);
-        }
-        return new ResultDao(200, "登录成功，欢迎您！管理员", 3);
+        session.setAttribute("username", dbUsers.getUsername());
+        return new ResultDao(200, "登录成功，欢迎您！管理员");
     }
 }

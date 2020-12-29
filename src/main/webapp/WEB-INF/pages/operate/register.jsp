@@ -62,7 +62,7 @@
     <div class="register-box-body">
         <form  id="register">
             <div class="form-group has-feedback">
-                <input type="text" title="用户名" id="username" name="userName" class="form-control" placeholder="用户名只能是4-6位的字母或者数字" autocomplete="off">
+                <input type="text" title="用户名" id="username" name="username" class="form-control" placeholder="用户名只能是4-6位的字母或者数字" autocomplete="off">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -74,11 +74,11 @@
                 <span class="glyphicon glyphicon-phone form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" title="密码" id="passwd" name="passWord" class="form-control" placeholder="密码">
+                <input type="password" title="密码" id="passwd" name="password" class="form-control" placeholder="密码">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" title="确认密码" id="passwds" name="passwds" class="form-control" placeholder="确认密码">
+                <input type="password" title="确认密码" id="passwds" name="passwords" class="form-control" placeholder="确认密码">
                 <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
             </div>
             <div class="row">

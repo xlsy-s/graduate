@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 /**
  * 登录的操作
  */
-@Controller
+@Controller // 在ssm中最好不要使用@RestController 这个会让你的渲染页面失效
 @RequestMapping("/login")
 public class LoginController {
     @Autowired
@@ -26,13 +26,13 @@ public class LoginController {
      */
     @GetMapping("/page")
     public String loginPage(){
-        return "login";
+        return "operate/login";
     }
 
     /**
      * 登录操作
      */
-    @PostMapping("Login")
+    @PostMapping("/Login")
     @ResponseBody
     public ResultDao login(Users users, HttpSession session){
         return loginService.findByName(users,session);

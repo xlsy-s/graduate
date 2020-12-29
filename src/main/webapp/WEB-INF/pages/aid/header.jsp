@@ -24,7 +24,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="${pageContext.request.contextPath}/static/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">张猿猿</span>
+                            <span class="hidden-xs">${username}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -32,7 +32,7 @@
                                 <img src="${pageContext.request.contextPath}/static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                 <p>
-                                    张猿猿 - 数据管理员
+                                    ${username} - 数据管理员
                                     <small>最后登录 11:20AM</small>
                                 </p>
                             </li>

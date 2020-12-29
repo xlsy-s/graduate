@@ -13,6 +13,6 @@
     </select>
     <!--查询所有状态开启的商品信息-->
     <select id="findStatus" resultType="com.graduate.pojo.Product">
-        select * from product where productStatus=1;
+        select * from product where product_status=1;
     </select>
 </mapper>
