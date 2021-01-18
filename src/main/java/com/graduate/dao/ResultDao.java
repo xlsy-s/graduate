@@ -1,8 +1,11 @@
 package com.graduate.dao;
 
+import lombok.Data;
+
 /**
  * 数据传输
  */
+@Data
 public class ResultDao{
     // 状态码
     private Integer code;
@@ -39,27 +42,4 @@ public class ResultDao{
         this.data = data;
     }
 
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
 }

@@ -4,17 +4,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- * 主页的相关操作
- */
 @Controller
-@RequestMapping("/index")
-public class IndexController {
+@RequestMapping("/teacher")
+public class TeacherController {
     /**
-     * 渲染主页
+     * 渲染教师列表页
+     * @return
      */
     @GetMapping("/page")
-    public String indexPage(){
-        return "index";
+    public String page(){
+        return "teacher/list";
     }
 }

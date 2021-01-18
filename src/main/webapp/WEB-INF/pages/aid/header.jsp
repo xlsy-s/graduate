@@ -53,7 +53,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">修改密码</a>
+                                    <a href="${pageContext.request.contextPath}/forget/page" class="btn btn-default btn-flat">修改密码</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="javascript:quit();" id="quit" class="btn btn-default btn-flat">退出登录</a>
@@ -74,7 +74,7 @@
                 dataType:'json',
                 success:function (data){
                     if (data.code===200){
-                        location.href='${pageContext.request.contextPath}/home/page';
+                        location.href='${pageContext.request.contextPath}/login/page';
                     }
                 }
             })

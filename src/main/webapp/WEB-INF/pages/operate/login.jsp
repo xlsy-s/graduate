@@ -84,8 +84,7 @@
             </div>
         </form>
         <!-- /.social-auth-links -->
-        <a href="${pageContext.request.contextPath}/register/page" class="text-center">新用户注册</a>
-        <a href="${pageContext.request.contextPath}/forget/page" style="float: right">忘记密码</a><br>
+        <a href="${pageContext.request.contextPath}/forget/page" style="float: right">忘记密码</a>
     </div>
     <!-- /.login-box-body -->
 </div>

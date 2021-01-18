@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * 登录业务实现类
+ */
 @Service
 @Transactional // 事务管理
 public class LoginServiceImpl implements LoginService {
@@ -54,8 +57,14 @@ public class LoginServiceImpl implements LoginService {
         if (!users.getPassword().equals(dbUsers.getPassword())) {
             return new ResultDao(1002, "密码错误");
         }
+        // 判断是否有别名
+        if(dbUsers.getAlias() != "" || dbUsers.getAlias() != null){
+            session.setAttribute("username",dbUsers.getAlias());
+        }
         // 设置session值
-        session.setAttribute("username", dbUsers.getUsername());
+        else{
+            session.setAttribute("username", dbUsers.getUsername());
+        }
         return new ResultDao(200, "登录成功，欢迎您！管理员");
     }
 }

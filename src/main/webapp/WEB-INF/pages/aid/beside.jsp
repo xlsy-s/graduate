@@ -46,25 +46,21 @@
                     </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li id="admin-profile">
-                            <a href="all-admin-profile.html">
-                                <i class="fa fa-circle-o"></i> 用户管理
-                            </a>
-                        </li>
+
 
                         <li id="admin-invoice">
-                            <a href="all-admin-invoice.html">
+                            <a href="#">
                                 <i class="fa fa-circle-o"></i> 角色管理
                             </a>
                         </li>
 
                         <li id="admin-invoice-print">
-                            <a href="all-admin-invoice-print.html">
+                            <a href="#">
                                 <i class="fa fa-circle-o"></i> 资源权限管理
                             </a>
                         </li>
                         <li id="admin-access-log">
-                            <a href="all-admin-invoice-print.html">
+                            <a href="#">
                                 <i class="fa fa-circle-o"></i> 访问日志
                             </a>
                         </li>
@@ -83,14 +79,20 @@
                     </a>
                     <ul class="treeview-menu">
                         <li id="charts-flot">
-                            <a href="${pageContext.request.contextPath}/product/page">
-                                <i class="fa fa-circle-o"></i> 商品管理
+                            <a href="#">
+                                <i class="fa fa-circle-o"></i> 院系列表
                             </a>
                         </li>
 
-                        <li id="charts-inline">
-                            <a href="all-charts-inline.html">
-                                <i class="fa fa-circle-o"></i> 订单管理
+                        <li id="teacher-list">
+                            <a href="${pageContext.request.contextPath}/teacher/page">
+                                <i class="fa fa-circle-o"></i> 教师列表
+                            </a>
+                        </li>
+
+                        <li id="student-list">
+                            <a href="${pageContext.request.contextPath}/student/page">
+                                <i class="fa fa-circle-o"></i> 学生列表
                             </a>
                         </li>
 

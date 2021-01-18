@@ -2,10 +2,12 @@ package com.graduate.mapper;
 
 import com.graduate.pojo.Users;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * 忘记密码
  */
+@Repository
 public interface ForgetMapper {
 
     /**

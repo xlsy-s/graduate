@@ -86,7 +86,7 @@
         </form>
         <div class="row">
             <div class="col-lg-4" style="padding-top: 2px;position: absolute;">
-                <a href="login.html">返回登录页</a>
+                <a href="${pageContext.request.contextPath}/login/page">返回登录页</a>
             </div>
         </div>
     </div>
