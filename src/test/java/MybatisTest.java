@@ -1,3 +1,4 @@
+import com.graduate.mapper.ForgetMapper;
 import com.graduate.mapper.LoginMapper;
 import com.graduate.pojo.Users;
 import org.junit.Test;
@@ -16,10 +17,20 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class MybatisTest {
     @Autowired
     private LoginMapper loginMapper;
+    @Autowired
+    private ForgetMapper forgetMapper;
     @Test
     public void run1(){
         String name = "admin";
         Users byName = loginMapper.findByName(name);
         System.out.println(byName);
     }
+    @Test
+    public void run2(){
+        Users users = new Users();
+        users.setPhone("15730560197");
+        users.setPassword("000000");
+        forgetMapper.updatePassword(users);
+    }
+
 }

@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.graduate.mapper.StudentMapper">
     <select id="findAll" resultType="com.graduate.pojo.Student">
-        SELECT id, student_name, student_age, student_gender, student_height, student_teacher, student_faculty, student_time
+        SELECT id, student_name, student_age, student_gender, student_height,student_class_id, student_teacher_id, student_faculty_id, student_time
         FROM student
     </select>
 </mapper>

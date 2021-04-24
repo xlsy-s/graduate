@@ -19,7 +19,7 @@ public class ForgetController {
     @Autowired
     private ForgetService forgetService;
     /**
-     * 渲染登录页
+     * 渲染忘记密码页
      */
     @GetMapping("/page")
     public String forgetPage(){

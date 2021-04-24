@@ -6,15 +6,15 @@ import com.graduate.pojo.Users;
 import com.graduate.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 登录业务实现类
  */
 @Service
-@Transactional // 事务管理
 public class LoginServiceImpl implements LoginService {
     @Autowired
     private LoginMapper loginMapper;
@@ -30,13 +30,14 @@ public class LoginServiceImpl implements LoginService {
         /**
          * 编写业务层
          */
-        // 判断用户名的长度是否为11 是就用电话去数据中查找数据
-        if (users.getUsername().length() == 11) {
+        boolean mobile = isMobile(users.getUsername());
+        // 判断用户名是否为电话 是就用电话去数据中查找数据
+        if (mobile == true) {
             Users dbUsers = loginMapper.findByPhone(users.getUsername());
-            return info(dbUsers, users, session);
+            return findInfo(dbUsers, users, session);
         } else { // 不是则通过用户名去查询
             Users dbUsers = loginMapper.findByName(users.getUsername());
-            return info(dbUsers, users, session);
+            return findInfo(dbUsers, users, session);
         }
     }
 
@@ -48,7 +49,7 @@ public class LoginServiceImpl implements LoginService {
      * @param session
      * @return
      */
-    public ResultDao info(Users dbUsers, Users users, HttpSession session) {
+    public ResultDao findInfo(Users dbUsers, Users users, HttpSession session) {
         // 判断用户名是否存在
         if (dbUsers == null) {
             return new ResultDao(1001, "用户名错误");
@@ -57,14 +58,25 @@ public class LoginServiceImpl implements LoginService {
         if (!users.getPassword().equals(dbUsers.getPassword())) {
             return new ResultDao(1002, "密码错误");
         }
-        // 判断是否有别名
-        if(dbUsers.getAlias() != "" || dbUsers.getAlias() != null){
-            session.setAttribute("username",dbUsers.getAlias());
-        }
-        // 设置session值
-        else{
+        // 设置session值 判断是否有别名
+        if (dbUsers.getAlias() != "" || dbUsers.getAlias() != null) {
+            session.setAttribute("username", dbUsers.getUsername());
+            session.setAttribute("alias", dbUsers.getAlias());
+        } else {
             session.setAttribute("username", dbUsers.getUsername());
         }
-        return new ResultDao(200, "登录成功，欢迎您！管理员");
+        return new ResultDao(200, "登录成功");
+    }
+
+    /**
+     * 判断是否是在用电话登录
+     * @param username
+     * @return
+     */
+    public boolean isMobile(String username) {
+        // 正则判断
+        Pattern pattern = Pattern.compile("^[1][3,4,5,8][0-9]{9}$");
+        Matcher matcher = pattern.matcher(username);
+        return matcher.matches();
     }
 }

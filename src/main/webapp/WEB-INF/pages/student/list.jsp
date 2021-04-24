@@ -213,6 +213,7 @@
                                 </th>
                                 <th class="sorting_asc">学号</th>
                                 <th class="sorting_desc">名字</th>
+                                <th class="sorting_desc">性别</th>
                                 <th class="sorting_asc sorting_asc_disabled">年龄</th>
                                 <th class="sorting_desc sorting_desc_disabled">所在院系</th>
                                 <th class="sorting_desc sorting_desc_disabled">所在班级</th>
@@ -221,11 +222,12 @@
                                 <th class="text-center">操作</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="t-body">
                             <tr>
                                 <td><input name="ids" type="checkbox"></td>
                                 <td>1</td>
                                 <td>王五</td>
+                                <td>男</td>
                                 <td>20</td>
                                 <td>信科</td>
                                 <td>云计算2班</td>
@@ -262,15 +264,13 @@
                 <!-- .box-footer-->
                 <div class="box-footer">
                     <div class="pull-left">
-                        <div class="form-group form-inline">
+                        <div id="pageTotal" class="form-group form-inline">
                             总共2 页，共14 条数据
                         </div>
                     </div>
-                    <div class="box-tools pull-right">
-                        <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">首页</a>
-                            </li>
+                    <div  class="box-tools pull-right">
+                        <ul id="Pages" class="pagination">
+                            <li><a href="#" aria-label="Previous">首页</a></li>
                             <li><a href="#">上一页</a></li>
                             <li><a href="#">1</a></li>
                             <li><a href="#">2</a></li>
@@ -278,9 +278,7 @@
                             <li><a href="#">4</a></li>
                             <li><a href="#">5</a></li>
                             <li><a href="#">下一页</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">尾页</a>
-                            </li>
+                            <li><a href="#" aria-label="Next">尾页</a></li>
                         </ul>
                     </div>
 
@@ -365,6 +363,103 @@
             language: 'zh-CN'
         });
     });
+
+    // 获取学生数据
+    $(function () {
+        let gender=["女","男"]
+        $.ajax({
+            type: "get",
+            url: "${pageContext.request.contextPath}/student/list",
+            dataType: "json",
+            success:function (data) {
+                console.log(data.data)
+                if(data.code === 200){
+                    // 获取成功清空预留数据
+                    $('#t-body').empty();
+                    $(data.data.list).each(function () {
+                        let tr=$('<tr>\n' +
+                            '                                <td><input name="ids" type="checkbox"></td>\n' +
+                            '                                <td>'+this.id+'</td>\n' +
+                            '                                <td>'+this.studentName+'</td>\n' +
+                            '                                <td>'+gender[this.studentGender]+'</td>\n' +
+                            '                                <td>'+this.studentAge+'</td>\n' +
+                            '                                <td>'+this.studentFacultyId+'</td>\n' +
+                            '                                <td>'+this.studentClassId+'</td>\n' +
+                            '                                <td>'+this.studentTeacherId+'</td>\n' +
+                            '                                <td>'+this.studentTime+'</td>\n' +
+                            '                                <td class="text-center">\n' +
+                            '                                    <button type="button" class="btn bg-olive btn-xs">编辑</button>\n' +
+                            '                                    <button type="button" class="btn bg-olive btn-xs">详情</button>\n' +
+                            '                                    <button type="button" class="btn bg-olive btn-xs">删除</button>\n' +
+                            '                                </td>');
+                        $('#t-body').append(tr);
+                    });
+                    // 显示总条数与总页数
+                    $('#pageTotal').text('总共'+data.data.pages+'页，共'+data.data.total+'条数据');
+                    // 清空原来的数据
+                    $('#Pages').empty();
+                    $('#Pages').append(
+                        '<li><a href="javascript:getDate('+1+','+data.data.pageSize+')" aria-label="Previous">首页</a></li>'
+                    );
+                    $('#Pages').append(
+                        '<li><a href="javascript:getDate('+(data.data.pageNum-1)+','+data.data.pageSize+')">上一页</a></li>'
+                    )
+                    $(data.data.navigatepageNums).each(function () {
+                        if(data.data.pageNum==this){
+                            $('#Pages').append('<li><span>'+this+'</span></li>')
+                        } else{
+                            $('#Pages').append('<li><a href="javascript:getDate('+this+','+data.data.pageSize+')">'+this+'</a></li>')
+                        }
+                    })
+                    $('#Pages').append(
+                        '<li><a href="javascript:getDate('+(data.data.pageNum+1)+','+data.data.pageSize+')">下一页</a></li>'
+                    )
+                    $('#Pages').append(
+                        '<li><a href="javascript:getDate('+data.data.pages+','+data.data.pageSize+')" aria-label="Next">尾页</a></li>'
+                    );
+
+                }
+            }
+        })
+    })
+
+    // 分页获取
+    function getDate(Page,Size) {
+        let gender=["女","男"]
+        let param = {page:Page,size:Size}
+        $.ajax({
+            type: "get",
+            url: "${pageContext.request.contextPath}/student/list",
+            data: param,
+            dataType: "json",
+            success:function (data) {
+                if(data.code === 200){
+                    // 获取成功清空预留数据
+                    $('#t-body').empty();
+                    $(data.data.list).each(function () {
+                        let tr=$('<tr>\n' +
+                            '                                <td><input name="ids" type="checkbox"></td>\n' +
+                            '                                <td>'+this.id+'</td>\n' +
+                            '                                <td>'+this.studentName+'</td>\n' +
+                            '                                <td>'+gender[this.studentGender]+'</td>\n' +
+                            '                                <td>'+this.studentAge+'</td>\n' +
+                            '                                <td>'+this.studentFacultyId+'</td>\n' +
+                            '                                <td>'+this.studentClassId+'</td>\n' +
+                            '                                <td>'+this.studentTeacherId+'</td>\n' +
+                            '                                <td>'+this.studentTime+'</td>\n' +
+                            '                                <td class="text-center">\n' +
+                            '                                    <button type="button" class="btn bg-olive btn-xs">编辑</button>\n' +
+                            '                                    <button type="button" class="btn bg-olive btn-xs">详情</button>\n' +
+                            '                                    <button type="button" class="btn bg-olive btn-xs">删除</button>\n' +
+                            '                                </td>');
+                        $('#t-body').append(tr);
+                    });
+                }
+            }
+        })
+    }
+
+
     // 设置激活菜单
     function setSidebarActive(tagUri) {
         var liObj = $("#" + tagUri);

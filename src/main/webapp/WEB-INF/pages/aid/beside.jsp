@@ -91,7 +91,7 @@
                         </li>
 
                         <li id="student-list">
-                            <a href="${pageContext.request.contextPath}/student/page">
+                            <a href="${pageContext.request.contextPath}/student/page?page=1&size=5">
                                 <i class="fa fa-circle-o"></i> 学生列表
                             </a>
                         </li>

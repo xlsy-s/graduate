@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/home")
 public class HomeController {
     /**
-     * 首页
+     * 首页 预留接口
      * @return
      */
     @GetMapping("/page")

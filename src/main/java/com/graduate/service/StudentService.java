@@ -1,13 +1,11 @@
 package com.graduate.service;
 
-import com.graduate.pojo.Student;
-
-import java.util.List;
+import com.graduate.dao.ResultDao;
 
 public interface StudentService {
     /**
      * 查询所有学生信息
      * @return
      */
-    List<Student> findAll();
+    ResultDao findAll(Integer page,Integer size);
 }

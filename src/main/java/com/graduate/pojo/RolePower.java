@@ -9,7 +9,7 @@ import java.io.Serializable;
  * 用于指定权限
  */
 @Data
-public class Power implements Serializable {
+public class RolePower implements Serializable {
 
   /**
    * id

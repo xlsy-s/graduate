@@ -32,8 +32,8 @@
                                 <img src="${pageContext.request.contextPath}/static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                 <p>
-                                    ${username} - 数据管理员
-                                    <small>最后登录 11:20AM</small>
+                                    ${username}: ${alias}
+                                    <small>上次登录时间 11:20AM</small>
                                 </p>
                             </li>
                             <!-- Menu Body

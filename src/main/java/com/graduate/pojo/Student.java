@@ -17,8 +17,9 @@ public class Student implements Serializable {
   private Integer studentAge;
   private Integer studentGender;
   private Integer studentHeight;
-  private Integer studentTeacher;
-  private Integer studentFaculty;
+  private Integer studentClassId;
+  private Integer studentTeacherId;
+  private Integer studentFacultyId;
   //格式化时间
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
   private Date studentTime;

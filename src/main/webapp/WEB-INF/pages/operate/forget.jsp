@@ -61,7 +61,7 @@
     <div class="register-box-body">
         <form method="post" id="forget">
             <div class="form-group has-feedback">
-                <input type="text" title="电话" id="phone" name="phone" class="form-control" placeholder="手机号" autocomplete="off">
+                <input type="text" title="电话" id="phone" name="phone" class="form-control" placeholder="用户名/手机号" autocomplete="off">
                 <span class="glyphicon glyphicon-phone form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
