@@ -54,4 +54,10 @@ public class StudentController {
         model.addAttribute("studentById",studentById);
         return "student/edit";
     }
+
+    @PostMapping("data/update")
+    @ResponseBody
+    public ResultDao update(Student student){
+        return studentService.updateInfo(student);
+    }
 }

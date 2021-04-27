@@ -48,6 +48,17 @@ public class StudentServiceImpl implements StudentService {
     }
 
     /**
+     * 更新学生信息
+     * @param student
+     * @return
+     */
+    @Override
+    public ResultDao updateInfo(Student student) {
+        studentMapper.updateInfo(student);
+        return new ResultDao(200,"更新成功");
+    }
+
+    /**
      * 封装判断性别的方法
      */
     private String judgeSex(Integer studentGender){

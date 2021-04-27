@@ -42,4 +42,29 @@
         student_faculty_id,
         student_time FROM student where id = #{id}
     </select>
+    <!--更新学生信息-->
+    <update id="updateInfo">
+        update student
+        <set>
+            <if test="student.studentName!=null and student.studentName != ''">
+                student_name=#{student.studentName},
+            </if>
+            <if test="student.studentHeight!=null and student.studentHeight != ''">
+                 student_height= #{student.studentHeight},
+            </if>
+            <if test="student.studentFacultyId!=null and student.studentFacultyId!=''">
+                student_faculty_id = #{student.studentFacultyId},
+            </if>
+            <if test="student.studentProfessionId!=null and student.studentProfessionId!=''">
+                student_profession_id = #{student.studentProfessionId},
+            </if>
+            <if test="student.studentClassId!=null and student.studentClassId!=''">
+                student_class_id = #{student.studentClassId},
+            </if>
+            <if test="student.studentTeacherId!=null and student.studentTeacherId!=''">
+                student_teacher_id = #{student.studentTeacherId}
+            </if>
+        </set>
+        where id = #{student.id}
+    </update>
 </mapper>

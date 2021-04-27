@@ -14,4 +14,9 @@ public interface StudentService {
      * 通过id获取学生的详细信息
      */
     Student findById(Integer id);
+
+    /**
+     * 更新学生信息
+     */
+    ResultDao updateInfo(Student student);
 }

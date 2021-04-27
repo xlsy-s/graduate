@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -35,6 +36,9 @@ public class Student implements Serializable {
   private Date studentTime;
   // 返回前端的时间
   private String studentTimeDay;
+  // 更新时间
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
+  private Timestamp studentUpdateTime;
 
 
 }

@@ -21,6 +21,12 @@ public interface StudentMapper {
      * 获取学生详细信息
      */
     Student findById(@Param("id") Integer id);
+
+    /**
+     *  更新学生数据
+     * @param student
+     */
+    void updateInfo(@Param("student") Student student);
     /**
      * 删除学生 注意这里只是软删除
      */

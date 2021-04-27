@@ -93,7 +93,7 @@
                 <div class="tab-content">
                     <!--基础控件-->
                     <form id="dataForm">
-                        <input hidden="hidden" value="${studentById.id}"/>
+                        <input hidden="hidden" name="id" value="${studentById.id}"/>
                         <div class="row data-type">
                             <div class="col-md-2 title">学生姓名</div>
                             <div class="col-md-4 data">
@@ -124,7 +124,7 @@
                             </div>
                             <div class="col-md-2 title">专业</div>
                             <div class="col-md-4 data">
-                                <input type="text" class="form-control" placeholder="专业" value="${studentById.studentProfessionId}">
+                                <input type="text" name="studentProfessionId" class="form-control" placeholder="专业" value="${studentById.studentProfessionId}">
                             </div>
                             <div class="col-md-2 title">班级</div>
                             <div class="col-md-4 data">
@@ -250,7 +250,7 @@
         }
         $.ajax({
             type: "post",
-            url: "#",
+            url: "${pageContext.request.contextPath}/student/data/update",
             data: $("#dataForm").serializeArray(),
             dataType: "json",
             success: function (data) {
