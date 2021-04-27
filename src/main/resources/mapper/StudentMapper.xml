@@ -3,7 +3,43 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.graduate.mapper.StudentMapper">
     <select id="findAll" resultType="com.graduate.pojo.Student">
-        SELECT id, student_name, student_age, student_gender, student_height,student_class_id, student_teacher_id, student_faculty_id, student_time
+        SELECT
+        id,
+        student_name,
+        year(now())-year(student_birth) student_age,
+        student_birth,
+        student_gender,
+        student_height,
+        student_class_id,
+        student_profession_id,
+        student_teacher_id,
+        student_faculty_id,
+        student_time
         FROM student
+        WHERE
+        YEAR (now())- YEAR ( student_time ) &lt;= 3 AND is_delect = 0
+        GROUP BY
+        student_faculty_id,
+        student_class_id,
+        student_teacher_id
+        ORDER BY
+        student_faculty_id,
+        student_class_id,
+        student_teacher_id DESC
+    </select>
+    <!--通过id获取学生的详情信息-->
+    <select id="findById" resultType="com.graduate.pojo.Student">
+        select
+        id,
+        student_name,
+        year(now())-year(student_birth) student_age,
+        student_birth,
+        student_gender,
+        student_height,
+        student_class_id,
+        student_profession_id,
+        student_teacher_id,
+        student_faculty_id,
+        student_time FROM student where id = #{id}
     </select>
 </mapper>

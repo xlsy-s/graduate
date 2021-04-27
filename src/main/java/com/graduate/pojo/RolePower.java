@@ -18,7 +18,10 @@ public class RolePower implements Serializable {
   /**
    * 权限
    */
+  private String role_id;
+  /**
+   * 权限描述
+   */
   private String power;
-
 
 }

@@ -1,13 +1,12 @@
 package com.graduate.controller;
 
 import com.graduate.dao.ResultDao;
+import com.graduate.pojo.Student;
 import com.graduate.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/student")
@@ -35,9 +34,7 @@ public class StudentController {
      */
 
     /**
-     * 获取所有学生数据
-     * 该接口需要优化 展示以院系与专业分组展示
-     * 该方法只有管理员才可以使用
+     * 获取所有在校学生数据 - 分页 已优化
      * @return
      */
     @GetMapping("/list")
@@ -46,5 +43,15 @@ public class StudentController {
             @RequestParam(name = "page",defaultValue = "1") Integer page,
             @RequestParam(name = "size",defaultValue = "5") Integer size){
         return studentService.findAll(page,size);
+    }
+
+    /**
+     * 通过id获取指定的学生详情信息
+     */
+    @GetMapping("data/{id}")
+    public String dataId(@PathVariable Integer id, Model model){
+        Student studentById = studentService.findById(id);
+        model.addAttribute("studentById",studentById);
+        return "student/edit";
     }
 }

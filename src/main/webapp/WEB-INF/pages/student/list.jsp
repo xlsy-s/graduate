@@ -64,7 +64,7 @@
     <div class="content-wrapper">
         <!--模态窗口-->
         <div class="tab-pane" id="tab-model">
-            <div id="myModal" class="modal modal-primary" role="dialog">
+            <div id="myModal" class="modal modal-open" role="dialog">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -72,7 +72,8 @@
                                 <span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">增加学生</h4>
                         </div>
-                        <div class="modal-body">
+                        <form>
+                            <div class="modal-body">
                             <div class="box-body">
                                 <div class="form-horizontal">
                                     <div class="form-group">
@@ -144,10 +145,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-outline" data-dismiss="modal">保存</button>
-                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-success" data-dismiss="modal">保存</button>
+                            </div>
+                        </form>
                     </div>
                     <!-- /.modal-content -->
                 </div>
@@ -164,7 +166,7 @@
                 <small>学生列表</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                <li><a href="${pageContext.request.contextPath}/index/page"><i class="fa fa-dashboard"></i> 首页</a></li>
                 <li><a href="#">基础数据</a></li>
                 <li class="active">学生列表</li>
             </ol>
@@ -191,14 +193,14 @@
                                 <div class="btn-group">
                                     <!--data-toggle="modal" data-target="#myModal" 连接模态窗口-->
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" title="添加学生"><i class="fa fa-file-o"></i>添加</button>
-                                    <button type="button" class="btn btn-danger" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
+                                    <button type="button" class="btn btn-danger" title="删除"><i class="fa fa-trash-o"></i> 批量删除</button>
                                     <button type="button" class="btn btn-default" title="刷新" onclick="javascript:location.replace(location.href);"><i class="fa fa-refresh"></i> 刷新</button>
                                 </div>
                             </div>
                         </div>
                         <div class="box-tools pull-right">
                             <div class="has-feedback">
-                                <input type="text" class="form-control input-sm" placeholder="搜索">
+                                <input id="search" type="text" class="form-control input-sm" placeholder="搜索">
                                 <span class="glyphicon glyphicon-search form-control-feedback"></span>
                             </div>
                         </div>
@@ -234,8 +236,7 @@
                                 <td>张三</td>
                                 <td>2020-6-5</td>
                                 <td class="text-center">
-                                    <button type="button" class="btn bg-olive btn-xs">编辑</button>
-                                    <button type="button" class="btn bg-olive btn-xs">详情</button>
+                                    <button type="button" class="btn bg-olive btn-xs" data-target="#my-Modal">编辑/详情</button>
                                     <button type="button" class="btn bg-olive btn-xs">删除</button>
                                 </td>
                             </tr>
@@ -378,20 +379,20 @@
                     $('#t-body').empty();
                     $(data.data.list).each(function () {
                         let tr=$('<tr>\n' +
-                            '                                <td><input name="ids" type="checkbox"></td>\n' +
-                            '                                <td>'+this.id+'</td>\n' +
-                            '                                <td>'+this.studentName+'</td>\n' +
-                            '                                <td>'+gender[this.studentGender]+'</td>\n' +
-                            '                                <td>'+this.studentAge+'</td>\n' +
-                            '                                <td>'+this.studentFacultyId+'</td>\n' +
-                            '                                <td>'+this.studentClassId+'</td>\n' +
-                            '                                <td>'+this.studentTeacherId+'</td>\n' +
-                            '                                <td>'+this.studentTime+'</td>\n' +
-                            '                                <td class="text-center">\n' +
-                            '                                    <button type="button" class="btn bg-olive btn-xs">编辑</button>\n' +
-                            '                                    <button type="button" class="btn bg-olive btn-xs">详情</button>\n' +
-                            '                                    <button type="button" class="btn bg-olive btn-xs">删除</button>\n' +
-                            '                                </td>');
+                            '         <td><input name="ids" type="checkbox"></td>\n' +
+                            '         <td>'+this.id+'</td>\n' +
+                            '         <td>'+this.studentName+'</td>\n' +
+                            '         <td>'+gender[this.studentGender]+'</td>\n' +
+                            '         <td>'+this.studentAge+'</td>\n' +
+                            '         <td>'+this.studentFacultyId+'</td>\n' +
+                            '         <td>'+this.studentClassId+'</td>\n' +
+                            '         <td>'+this.studentTeacherId+'</td>\n' +
+                            '         <td>'+this.studentTime+'</td>\n' +
+                            '         <td class="text-center">\n' +
+                            '           <a type="button" class="btn bg-olive btn-xs" href=${pageContext.request.contextPath}/student/data/'+this.id+'>编辑/详情</a>\n' +
+                            '           <button type="button" class="btn bg-olive btn-xs">删除</button>\n' +
+                            '         </td>\n' +
+                            '</tr>');
                         $('#t-body').append(tr);
                     });
                     // 显示总条数与总页数
@@ -405,11 +406,7 @@
                         '<li><a href="javascript:getDate('+(data.data.pageNum-1)+','+data.data.pageSize+')">上一页</a></li>'
                     )
                     $(data.data.navigatepageNums).each(function () {
-                        if(data.data.pageNum==this){
-                            $('#Pages').append('<li><span>'+this+'</span></li>')
-                        } else{
-                            $('#Pages').append('<li><a href="javascript:getDate('+this+','+data.data.pageSize+')">'+this+'</a></li>')
-                        }
+                        $('#Pages').append('<li><a href="javascript:getDate('+this+','+data.data.pageSize+')">'+this+'</a></li>')
                     })
                     $('#Pages').append(
                         '<li><a href="javascript:getDate('+(data.data.pageNum+1)+','+data.data.pageSize+')">下一页</a></li>'
@@ -438,20 +435,20 @@
                     $('#t-body').empty();
                     $(data.data.list).each(function () {
                         let tr=$('<tr>\n' +
-                            '                                <td><input name="ids" type="checkbox"></td>\n' +
-                            '                                <td>'+this.id+'</td>\n' +
-                            '                                <td>'+this.studentName+'</td>\n' +
-                            '                                <td>'+gender[this.studentGender]+'</td>\n' +
-                            '                                <td>'+this.studentAge+'</td>\n' +
-                            '                                <td>'+this.studentFacultyId+'</td>\n' +
-                            '                                <td>'+this.studentClassId+'</td>\n' +
-                            '                                <td>'+this.studentTeacherId+'</td>\n' +
-                            '                                <td>'+this.studentTime+'</td>\n' +
-                            '                                <td class="text-center">\n' +
-                            '                                    <button type="button" class="btn bg-olive btn-xs">编辑</button>\n' +
-                            '                                    <button type="button" class="btn bg-olive btn-xs">详情</button>\n' +
-                            '                                    <button type="button" class="btn bg-olive btn-xs">删除</button>\n' +
-                            '                                </td>');
+                            '         <td><input name="ids" type="checkbox"></td>\n' +
+                            '         <td>'+this.id+'</td>\n' +
+                            '         <td>'+this.studentName+'</td>\n' +
+                            '         <td>'+gender[this.studentGender]+'</td>\n' +
+                            '         <td>'+this.studentAge+'</td>\n' +
+                            '         <td>'+this.studentFacultyId+'</td>\n' +
+                            '         <td>'+this.studentClassId+'</td>\n' +
+                            '         <td>'+this.studentTeacherId+'</td>\n' +
+                            '         <td>'+this.studentTime+'</td>\n' +
+                            '         <td class="text-center">\n' +
+                            '           <a type="button" class="btn bg-olive btn-xs" href=${pageContext.request.contextPath}/student/data/'+this.id+'>编辑/详情</a>\n' +
+                            '           <button type="button" class="btn bg-olive btn-xs">删除</button>\n' +
+                            '         </td>\n' +
+                            '</tr>');
                         $('#t-body').append(tr);
                     });
                 }
@@ -489,6 +486,19 @@
             $(this).data("clicks", !clicks);
         });
     });
+
+    // 回车监听事件
+    $(document).keyup(function (e) {
+        if(e.keyCode == 13){
+            if($("#search").val().length === 0){
+                return false;
+            }
+            else{
+                console.log("这时候发动ajax请求")
+                return false
+            }
+        }
+    })
 
 </script>
 </body>

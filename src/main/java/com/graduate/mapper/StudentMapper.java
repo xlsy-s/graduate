@@ -1,6 +1,7 @@
 package com.graduate.mapper;
 
 import com.graduate.pojo.Student;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,10 +12,15 @@ import java.util.List;
 @Repository
 public interface StudentMapper {
     /**
-     * 查询所有的学生
+     * 查询所有在校的学生
      * @return
      */
     List<Student> findAll();
+
+    /**
+     * 获取学生详细信息
+     */
+    Student findById(@Param("id") Integer id);
     /**
      * 删除学生 注意这里只是软删除
      */

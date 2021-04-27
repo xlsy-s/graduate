@@ -2,11 +2,13 @@ package com.graduate.pojo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 教师实体类
  */
 @Data
-public class Teacher {
+public class Teacher implements Serializable {
 
     private Long id;
     private String teacherName;
