@@ -30,10 +30,12 @@ public interface StudentMapper {
     /**
      * 删除学生 注意这里只是软删除
      */
+    void updateStatus(@Param("id") Integer id);
 
     /**
      * 批量删除学生 这里也是软删除 所有的删除就只有管理员有这个权限
      */
+    void updateDel(@Param("ids") Integer[] ids);
 
     /**
      * 通过老师的id查询所有与他想关联的学生

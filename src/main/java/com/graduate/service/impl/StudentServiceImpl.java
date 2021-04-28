@@ -59,6 +59,26 @@ public class StudentServiceImpl implements StudentService {
     }
 
     /**
+     * 单个删除学生
+     * @param id
+     */
+    @Override
+    public ResultDao updateStatus(Integer id) {
+        studentMapper.updateStatus(id);
+        return new ResultDao(200,"删除成功");
+    }
+
+    /**
+     * 批量删除学生
+     * @param ids
+     */
+    @Override
+    public ResultDao updateDel(Integer[] ids) {
+        studentMapper.updateDel(ids);
+        return new ResultDao(200,"删除成功");
+    }
+
+    /**
      * 封装判断性别的方法
      */
     private String judgeSex(Integer studentGender){

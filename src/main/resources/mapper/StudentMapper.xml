@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.graduate.mapper.StudentMapper">
+
     <select id="findAll" resultType="com.graduate.pojo.Student">
         SELECT
         id,
@@ -18,10 +19,6 @@
         FROM student
         WHERE
         YEAR (now())- YEAR ( student_time ) &lt;= 3 AND is_delect = 0
-        GROUP BY
-        student_faculty_id,
-        student_class_id,
-        student_teacher_id
         ORDER BY
         student_faculty_id,
         student_class_id,
@@ -66,5 +63,19 @@
             </if>
         </set>
         where id = #{student.id}
+    </update>
+    <!--删除学生 软删除-->
+    <update id="updateStatus">
+        update student set is_delect = 1
+        WHERE id = #{id}
+    </update>
+
+    <!--批量删除-->
+    <update id="updateDel">
+        update student set is_delect = 1
+        WHERE id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </update>
 </mapper>

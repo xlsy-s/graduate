@@ -55,9 +55,26 @@ public class StudentController {
         return "student/edit";
     }
 
+    /**
+     * 更新学生信息
+     * @param student
+     * @return
+     */
     @PostMapping("data/update")
     @ResponseBody
     public ResultDao update(Student student){
         return studentService.updateInfo(student);
+    }
+
+    @PostMapping("data/status/{id}")
+    @ResponseBody
+    public ResultDao updateStatus(@PathVariable Integer id){
+       return studentService.updateStatus(id);
+    }
+
+    @PostMapping("data/status/del")
+    @ResponseBody
+    public ResultDao del(@RequestParam(name = "ids[]") Integer[] ids){
+        return studentService.updateDel(ids);
     }
 }

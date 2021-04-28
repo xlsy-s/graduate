@@ -92,7 +92,7 @@
                 </div>
                 <div class="tab-content">
                     <!--基础控件-->
-                    <form id="dataForm">
+                    <form role="form" id="dataForm">
                         <input hidden="hidden" name="id" value="${studentById.id}"/>
                         <div class="row data-type">
                             <div class="col-md-2 title">学生姓名</div>

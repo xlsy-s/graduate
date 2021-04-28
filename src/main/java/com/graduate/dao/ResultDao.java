@@ -2,11 +2,13 @@ package com.graduate.dao;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 数据传输
  */
 @Data
-public class ResultDao{
+public class ResultDao implements Serializable {
     // 状态码
     private Integer code;
     // 信息

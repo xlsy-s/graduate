@@ -19,4 +19,14 @@ public interface StudentService {
      * 更新学生信息
      */
     ResultDao updateInfo(Student student);
+
+    /**
+     * 删除学生 注意这里只是软删除
+     */
+    ResultDao updateStatus(Integer id);
+
+    /**
+     * 批量删除学生
+     */
+    ResultDao updateDel(Integer[] ids);
 }

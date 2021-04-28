@@ -72,7 +72,7 @@
                                 <span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">增加学生</h4>
                         </div>
-                        <form>
+                        <form role="form">
                             <div class="modal-body">
                             <div class="box-body">
                                 <div class="form-horizontal">
@@ -193,7 +193,7 @@
                                 <div class="btn-group">
                                     <!--data-toggle="modal" data-target="#myModal" 连接模态窗口-->
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" title="添加学生"><i class="fa fa-file-o"></i>添加</button>
-                                    <button type="button" class="btn btn-danger" title="删除"><i class="fa fa-trash-o"></i> 批量删除</button>
+                                    <button type="button" class="btn btn-danger" title="删除" onclick="javascript:Del()"><i class="fa fa-trash-o"></i> 批量删除</button>
                                     <button type="button" class="btn btn-default" title="刷新" onclick="javascript:location.replace(location.href);"><i class="fa fa-refresh"></i> 刷新</button>
                                 </div>
                             </div>
@@ -226,7 +226,7 @@
                             </thead>
                             <tbody id="t-body">
                             <tr>
-                                <td><input name="ids" type="checkbox"></td>
+                                <td><input name="ids" id="1" type="checkbox"></td>
                                 <td>1</td>
                                 <td>王五</td>
                                 <td>男</td>
@@ -237,7 +237,7 @@
                                 <td>2020-6-5</td>
                                 <td class="text-center">
                                     <button type="button" class="btn bg-olive btn-xs" data-target="#my-Modal">编辑/详情</button>
-                                    <button type="button" class="btn bg-olive btn-xs">删除</button>
+                                    <button type="button"  class="btn bg-olive btn-xs" >删除</button>
                                 </td>
                             </tr>
 
@@ -379,7 +379,7 @@
                     $('#t-body').empty();
                     $(data.data.list).each(function () {
                         let tr=$('<tr>\n' +
-                            '         <td><input name="ids" type="checkbox"></td>\n' +
+                            '         <td><input name="ids" value="'+this.id+'" class="icheckbox_square-blue" type="checkbox"></td>\n' +
                             '         <td>'+this.id+'</td>\n' +
                             '         <td>'+this.studentName+'</td>\n' +
                             '         <td>'+gender[this.studentGender]+'</td>\n' +
@@ -390,7 +390,7 @@
                             '         <td>'+this.studentTime+'</td>\n' +
                             '         <td class="text-center">\n' +
                             '           <a type="button" class="btn bg-olive btn-xs" href=${pageContext.request.contextPath}/student/data/'+this.id+'>编辑/详情</a>\n' +
-                            '           <button type="button" class="btn bg-olive btn-xs">删除</button>\n' +
+                            '           <button  type="button" class="btn bg-olive btn-xs" onclick="javascript:del('+this.id+')">删除</button>\n' +
                             '         </td>\n' +
                             '</tr>');
                         $('#t-body').append(tr);
@@ -435,7 +435,7 @@
                     $('#t-body').empty();
                     $(data.data.list).each(function () {
                         let tr=$('<tr>\n' +
-                            '         <td><input name="ids" type="checkbox"></td>\n' +
+                            '         <td><input name="ids" value="'+this.id+'" class="icheckbox_square-blue" type="checkbox"></td>\n' +
                             '         <td>'+this.id+'</td>\n' +
                             '         <td>'+this.studentName+'</td>\n' +
                             '         <td>'+gender[this.studentGender]+'</td>\n' +
@@ -446,7 +446,7 @@
                             '         <td>'+this.studentTime+'</td>\n' +
                             '         <td class="text-center">\n' +
                             '           <a type="button" class="btn bg-olive btn-xs" href=${pageContext.request.contextPath}/student/data/'+this.id+'>编辑/详情</a>\n' +
-                            '           <button type="button" class="btn bg-olive btn-xs">删除</button>\n' +
+                            '           <button  type="button" class="btn bg-olive btn-xs" onclick="javascript:del('+this.id+')">删除</button>\n' +
                             '         </td>\n' +
                             '</tr>');
                         $('#t-body').append(tr);
@@ -455,6 +455,7 @@
             }
         })
     }
+
 
 
     // 设置激活菜单
@@ -499,7 +500,54 @@
             }
         }
     })
+    // 删除事件
+    function del(id) {
+        console.log(id)
+        layer.confirm("确定要移除该学生吗？",function () {
+            $.ajax({
+                type: "post",
+                url: "${pageContext.request.contextPath}/student/data/status/"+id,
+                dataType: "json",
+                success: function (data) {
+                    layer.msg(data.msg,function () {
+                        if(data.code==200){
+                            window.location.reload();
+                        }
+                    })
+                }
+            })
+        })
+    }
+    // 批量删除事件
+    function Del() {
+        console.log("触发了事件")
+        let ids = [];
+        $("input[name='ids']:checked").each(function(i){
+            ids.push($(this).val())
+        })
+        if (ids.length==0){
+            layer.msg("请选择需要移除的学生！")
+            return false
+        }
+        else{
+            layer.confirm("确定是否移除选中的学生们？",function () {
+                $.ajax({
+                    type: "post",
+                    url: "${pageContext.request.contextPath}/student/data/status/del",
+                    data: {ids:ids},
+                    dataType: "json",
+                    success: function (data) {
+                        layer.msg(data.msg,function () {
+                            if(data.code===200){
+                                window.location.reload();
+                            }
+                        })
+                    }
+                })
+            })
+        }
 
+    }
 </script>
 </body>
 
