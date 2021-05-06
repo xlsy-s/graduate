@@ -34,8 +34,8 @@ public class LoginController {
      */
     @PostMapping("/Login")
     @ResponseBody
-    public ResultDao login(Users users, HttpSession session){
-        return loginService.findByName(users,session);
+    public ResultDao login(Users users){
+        return null;
     }
 
 
@@ -44,9 +44,7 @@ public class LoginController {
      */
     @GetMapping("/quit")
     @ResponseBody
-    public ResultDao outPut(HttpSession session){
-        // 把数据清空
-        session.removeAttribute("username");
+    public ResultDao outPut(){
         return new ResultDao(200,"退出成功");
     }
 }

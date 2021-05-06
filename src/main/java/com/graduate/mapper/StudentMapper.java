@@ -38,7 +38,7 @@ public interface StudentMapper {
     void updateDel(@Param("ids") Integer[] ids);
 
     /**
-     * 通过老师的id查询所有与他想关联的学生
+     * 通过老师的id查询所有与他相关联的学生
      */
 
     /**

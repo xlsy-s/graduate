@@ -66,12 +66,22 @@ public class StudentController {
         return studentService.updateInfo(student);
     }
 
+    /**
+     * 通过id删除指定学生
+     * @param id
+     * @return
+     */
     @PostMapping("data/status/{id}")
     @ResponseBody
     public ResultDao updateStatus(@PathVariable Integer id){
        return studentService.updateStatus(id);
     }
 
+    /**
+     * 批量删除指定学生
+     * @param ids
+     * @return
+     */
     @PostMapping("data/status/del")
     @ResponseBody
     public ResultDao del(@RequestParam(name = "ids[]") Integer[] ids){

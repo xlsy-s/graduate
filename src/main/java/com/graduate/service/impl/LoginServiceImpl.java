@@ -26,46 +26,19 @@ public class LoginServiceImpl implements LoginService {
      * @return
      */
     @Override
-    public ResultDao findByName(Users users, HttpSession session) {
+    public Users findByName(String name) {
         /**
          * 编写业务层
          */
-        boolean mobile = isMobile(users.getUsername());
+        boolean mobile = isMobile(name);
         // 判断用户名是否为电话 是就用电话去数据中查找数据
         if (mobile == true) {
-            Users dbUsers = loginMapper.findByPhone(users.getUsername());
-            return findInfo(dbUsers, users, session);
+            Users dbUsers = loginMapper.findByPhone(name);
+            return dbUsers;
         } else { // 不是则通过用户名去查询
-            Users dbUsers = loginMapper.findByName(users.getUsername());
-            return findInfo(dbUsers, users, session);
+            Users dbUsers = loginMapper.findByName(name);
+            return dbUsers;
         }
-    }
-
-    /**
-     * 封装判断方法
-     *
-     * @param dbUsers
-     * @param users
-     * @param session
-     * @return
-     */
-    public ResultDao findInfo(Users dbUsers, Users users, HttpSession session) {
-        // 判断用户名是否存在
-        if (dbUsers == null) {
-            return new ResultDao(1001, "用户名错误");
-        }
-        // 判断密码是否一致
-        if (!users.getPassword().equals(dbUsers.getPassword())) {
-            return new ResultDao(1002, "密码错误");
-        }
-        // 设置session值 判断是否有别名
-        if (dbUsers.getAlias() != "" || dbUsers.getAlias() != null) {
-            session.setAttribute("username", dbUsers.getUsername());
-            session.setAttribute("alias", dbUsers.getAlias());
-        } else {
-            session.setAttribute("username", dbUsers.getUsername());
-        }
-        return new ResultDao(200, "登录成功");
     }
 
     /**

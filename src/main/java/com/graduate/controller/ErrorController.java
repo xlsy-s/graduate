@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ErrorController {
     @GetMapping("/error404")
     public String error404(){
-        return "/error/404";
+        return "error/404";
+    }
+    @GetMapping("/error403")
+    public String error403(){
+        return "error/403";
     }
 }

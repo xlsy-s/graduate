@@ -9,7 +9,7 @@
                     <img src="${pageContext.request.contextPath}/static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>${username}</p>
+                    <p>xxx</p>
                     <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
                 </div>
             </div>
@@ -59,8 +59,8 @@
                                 <i class="fa fa-circle-o"></i> 资源权限管理
                             </a>
                         </li>
-                        <li id="admin-access-log">
-                            <a href="#">
+                        <li id="log">
+                            <a href="${pageContext.request.contextPath}/log/page">
                                 <i class="fa fa-circle-o"></i> 访问日志
                             </a>
                         </li>

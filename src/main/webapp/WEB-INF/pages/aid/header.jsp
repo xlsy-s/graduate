@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!-- 页面头部 -->
     <header class="main-header">
 
@@ -24,7 +25,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="${pageContext.request.contextPath}/static/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">${username}</span>
+                            <span class="hidden-xs">xxx</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -32,7 +33,7 @@
                                 <img src="${pageContext.request.contextPath}/static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                 <p>
-                                    ${username}: ${alias}
+                                    xxx
                                     <small>上次登录时间 11:20AM</small>
                                 </p>
                             </li>
@@ -56,7 +57,10 @@
                                     <a href="${pageContext.request.contextPath}/forget/page" class="btn btn-default btn-flat">修改密码</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="javascript:quit();" id="quit" class="btn btn-default btn-flat">退出登录</a>
+                                    <form role="form" >
+                                        <security:csrfMetaTags/>
+                                        <button type="button" onclick="quit()"  class="btn btn-danger btn-flat">退出登录</button>
+                                    </form>
                                 </div>
                             </li>
                         </ul>
@@ -67,15 +71,17 @@
     </header>
 <script>
     function quit(){
+        let header = $("meta[name='_csrf_header']").attr("content");
+        let token = $("meta[name='_csrf']").attr("content");
         layer.confirm('确定要退出吗？',function (index) {
             $.ajax({
-                type:'get',
-                url:'${pageContext.request.contextPath}/login/quit',
-                dataType:'json',
-                success:function (data){
-                    if (data.code===200){
-                        location.href='${pageContext.request.contextPath}/login/page';
-                    }
+                type:'post',
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header, token);
+                },
+                url:'${pageContext.request.contextPath}/logout',
+                success: function () {
+                    location.replace(location.href)
                 }
             })
         })

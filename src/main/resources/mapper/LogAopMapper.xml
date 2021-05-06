@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.graduate.mapper.LogAopMapper">
+
+    <select id="findAll" resultType="com.graduate.pojo.SysLogPojo">
+        select  id,visit_time, username, ip, url, execution_time, method from sys_log
+    </select>
+
+    <insert id="saveLog">
+        insert into sys_log values (
+                                    #{logPojo.visitTime},#{logPojo.username},#{logPojo.ip},
+                                    #{logPojo.url},#{logPojo.executionTime},#{logPojo.method});
+    </insert>
+
+</mapper>

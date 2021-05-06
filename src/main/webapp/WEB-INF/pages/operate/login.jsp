@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <!-- 页面meta -->
@@ -62,7 +63,8 @@
     <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">登录系统</p>
-        <form  id="form">
+        <form  id="form" role="form">
+            <security:csrfMetaTags/>
             <div class="form-group has-feedback">
                 <input type="text" name="username" id="username" class="form-control" autocomplete="off" placeholder="请输入用户名/电话号码">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -104,6 +106,8 @@
         $('input[type=submit]').click(function () {
             let username = $('#username').val();
             let password = $('#password').val();
+            let header = $("meta[name='_csrf_header']").attr("content");
+            let token = $("meta[name='_csrf']").attr("content");
             if(username.length===0){
                 layer.msg("用户名不能为空");
                 $('#username').focus();
@@ -117,20 +121,27 @@
             else{
                 $.ajax({
                     type:"post",
-                    url:'${pageContext.request.contextPath}/login/Login',
+                    url:'${pageContext.request.contextPath}/login',
+                    beforeSend: function(xhr){
+                        xhr.setRequestHeader(header, token);
+                    },
                     data:$("#form").serializeArray(),
                     dataType:"json",
                     success:function (data){
-                        layer.msg(data.msg,function (){
-                            if(data.code===200){
-                                location.href="${pageContext.request.contextPath}/index/page";
-                            }
-                        })
+                        console.log(data)
+                        if(data.code==200){
+                            layer.msg(data.msg,function () {
+                                location.href=data.data;
+                            })
+                        }else {
+                            layer.msg(data.msg,function () {
+                                location.href=data.data;
+                            })
+                        }
                     }
                 })
                 return false;
             }
-
         })
     });
 </script>
