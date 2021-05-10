@@ -37,16 +37,16 @@
         <!--去掉csrf拦截器-->
         <!--<security:csrf disabled="true"/>-->
     </security:http>
-    <!--测试
+    <!--配置加密规则-->
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <!--
         springSecurity 默认加密
         {noop} 表示不加密认证
+        user-service-ref 指定验证文件
         -->
     <security:authentication-manager>
-        <security:authentication-provider>
-            <security:user-service>
-                <security:user name="user" password="{noop}user" authorities="ROLE_TEACHER"/>
-                <security:user name="admin" password="{noop}admin" authorities="ROLE_CHAIRMEN"/>
-            </security:user-service>
+        <security:authentication-provider user-service-ref="customUserDetailsService">
+            <security:password-encoder ref="passwordEncoder"/>
         </security:authentication-provider>
     </security:authentication-manager>
-</beans>
+ </beans>

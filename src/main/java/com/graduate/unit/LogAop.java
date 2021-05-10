@@ -1,12 +1,18 @@
 package com.graduate.unit;
 
 
+import com.graduate.controller.LogAopController;
+import com.graduate.controller.LoginController;
 import com.graduate.mapper.LogAopMapper;
+import com.graduate.pojo.SysLogPojo;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,7 +67,10 @@ public class LogAop {
         Long endTime =  new Date().getTime()-startTime.getTime();
         // 获取url
         String url = null;
-        if(aClass!=null && method!=null&& aClass!= LogAop.class){
+        if(aClass!=null && method!=null &&
+                aClass!= LogAop.class && aClass!= LogAopController.class
+                && aClass != LoginController.class
+        ){
             // 获取类上的RequestMapping中的值
             RequestMapping classAnnotation = (RequestMapping) aClass.getAnnotation(RequestMapping.class);
             if(classAnnotation!=null){
@@ -75,7 +84,22 @@ public class LogAop {
 
         // 获取访问的ip地址
         String ip = request.getRemoteAddr();
-        // 获取操作的用户 配置了security则通过它获取
+
+        if (url != null){
+            //获取当前操作的用户
+            SecurityContext context = SecurityContextHolder.getContext();//从上下文中获了当前登录的用户
+            User user = (User) context.getAuthentication().getPrincipal();
+            String username = user.getUsername();
+            SysLogPojo logPojo = new SysLogPojo();
+            // 封装数据
+            logPojo.setUrl(url);
+            logPojo.setVisitTime(startTime);
+            logPojo.setExecutionTime(endTime);
+            logPojo.setUsername(username);
+            logPojo.setIp(ip);
+            logPojo.setMethod("[类名] " + aClass.getName() + "[方法名] " + method.getName());
+            logAopMapper.saveLog(logPojo);
+        }
     }
 
     // 封装获取方法注解的值

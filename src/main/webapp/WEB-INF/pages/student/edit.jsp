@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 
 <head>
@@ -93,6 +94,7 @@
                 <div class="tab-content">
                     <!--基础控件-->
                     <form role="form" id="dataForm">
+                        <security:csrfMetaTags/>
                         <input hidden="hidden" name="id" value="${studentById.id}"/>
                         <div class="row data-type">
                             <div class="col-md-2 title">学生姓名</div>
@@ -238,6 +240,8 @@
 
     // 保存更改操作
     $('#save').click(function () {
+        let header = $("meta[name='_csrf_header']").attr("content");
+        let token = $("meta[name='_csrf']").attr("content");
         // 验证数据是否为空
         let info = $('input[class="form-control"]');
         for(let i = 0;i<info.length;i++) {
@@ -252,6 +256,9 @@
             type: "post",
             url: "${pageContext.request.contextPath}/student/data/update",
             data: $("#dataForm").serializeArray(),
+            beforeSend: function(xhr){
+                xhr.setRequestHeader(header, token);
+            },
             dataType: "json",
             success: function (data) {
                 layer.msg(data.msg,function () {

@@ -43,7 +43,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter writer = response.getWriter();
-        writer.write(mapper.writeValueAsString(new ResultDao(200,"登录成功欢迎你",request.getContextPath()+"/index/page")));
+        writer.write(mapper.writeValueAsString(new ResultDao(200,"登录成功",request.getContextPath()+"/index/page")));
         writer.flush();
         writer.close();
     }

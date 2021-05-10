@@ -2,11 +2,17 @@ package com.graduate.security;
 
 import com.graduate.pojo.Users;
 import com.graduate.service.LoginService;
+import com.graduate.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 核心组件值之UserDetailsService
@@ -23,19 +29,31 @@ import org.springframework.stereotype.Component;
  *
  * UserDetailsService最终注入到AuthenticationProvider的实现类中。
  * 注意：UserDetailsService只单纯的负责存取用户信息，没有其他功能；认证过程是由AuthenticationManager完成
- * @author xiyang.ycj
- * @since Jun 24, 2019 23:48:14 PM
  */
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private RoleService roleService;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = loginService.findByName(username);
-        if (user == null){
-            throw new UsernameNotFoundException("用户["+username+"}不存在,请检查后再次输入");
+
+        try{
+            Users user = loginService.findByName(username);
+            if (user == null){
+                return null;
+            }
+            List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            List<String> rolePowers = roleService.findById(user.getTeacherId());
+            for (String rolePower : rolePowers) {
+                authorities.add(new SimpleGrantedAuthority(rolePower));
+            }
+            UserDetails userDetails = new User(user.getUsername(),user.getPassword(),authorities);
+            return userDetails;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
-        return new SecurityUser(user);
     }
 }

@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.graduate.mapper.StudentMapper">
+    <!--添加学生-->
+    <insert id="createStudent">
+        insert into student values (#{student.studentName},#{student.studentBirth}
+        ,#{student.studentGender}
+        , #{student.studentHeight}
+        ,#{student.studentClassId}
+        ,#{student.studentProfessionId}
+        ,#{student.studentTeacherId}
+        ,#{student.studentFacultyId});
+    </insert>
 
     <select id="findAll" resultType="com.graduate.pojo.Student">
         SELECT
@@ -19,10 +29,7 @@
         FROM student
         WHERE
         YEAR (now())- YEAR ( student_time ) &lt;= 3 AND is_delect = 0
-        ORDER BY
-        student_faculty_id,
-        student_class_id,
-        student_teacher_id DESC
+        ORDER BY id DESC
     </select>
     <!--通过id获取学生的详情信息-->
     <select id="findById" resultType="com.graduate.pojo.Student">
@@ -39,6 +46,7 @@
         student_faculty_id,
         student_time FROM student where id = #{id}
     </select>
+
     <!--更新学生信息-->
     <update id="updateInfo">
         update student
@@ -78,4 +86,29 @@
             #{id}
         </foreach>
     </update>
+
+
+    <!--带条件查找 通过名字去查找数据-->
+    <select id="findIf" resultType="com.graduate.pojo.Student">
+        SELECT
+            id,
+            student_name,
+            year(now())-year(student_birth) student_age,
+            student_birth,
+            student_gender,
+            student_height,
+            student_class_id,
+            student_profession_id,
+            student_teacher_id,
+            student_faculty_id,
+            student_time
+        FROM student
+        <where>
+            YEAR (now())- YEAR ( student_time ) &lt;= 3 AND is_delect = 0
+            <if test="name != null and name !=''">
+                student_name like CONCAT('%',#{name},'%')
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
 </mapper>

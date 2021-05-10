@@ -43,6 +43,14 @@ public interface StudentMapper {
 
     /**
      * 带条件的查询学生
+     * 通过学生姓名查找
      */
+    List<Student> findIf(@Param("name") String name);
+
+    /**
+     * 添加学生
+     * @param student
+     */
+    void createStudent(@Param("student") Student student);
 
 }

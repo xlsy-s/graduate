@@ -1,13 +1,10 @@
 package com.graduate.service.impl;
 
-import com.graduate.dao.ResultDao;
 import com.graduate.mapper.LoginMapper;
 import com.graduate.pojo.Users;
 import com.graduate.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpSession;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

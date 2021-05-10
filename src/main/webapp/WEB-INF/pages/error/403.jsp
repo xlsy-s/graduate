@@ -99,7 +99,7 @@
 <div style="text-align: center;color: rgba(255,255,255,0.62);margin: 9%;">
     <h1>403 YOUR ON POWER</h1>
     <p><strong>抱歉您无权访问该资源</strong></p>
-    <a href="../operate/login.jsp">返回登录页</a>
+    <a href="${pageContext.request.contextPath}/log/page">返回登录页</a>
 </div>
 <!-- 内容区域 /-->
 <script>

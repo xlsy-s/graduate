@@ -1,9 +1,7 @@
 package com.graduate.service;
 
-import com.graduate.dao.ResultDao;
 import com.graduate.pojo.Users;
 
-import javax.servlet.http.HttpSession;
 
 /**
  * 登录业务层

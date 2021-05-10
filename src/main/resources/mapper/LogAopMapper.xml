@@ -7,9 +7,14 @@
     </select>
 
     <insert id="saveLog">
-        insert into sys_log values (
-                                    #{logPojo.visitTime},#{logPojo.username},#{logPojo.ip},
-                                    #{logPojo.url},#{logPojo.executionTime},#{logPojo.method});
+        insert into sys_log(
+                            visit_time, username, ip, url, execution_time, method) values (
+                    #{logPojo.visitTime},
+                    #{logPojo.username},
+                    #{logPojo.ip},
+                    #{logPojo.url},
+                    #{logPojo.executionTime},
+                    #{logPojo.method});
     </insert>
 
 </mapper>

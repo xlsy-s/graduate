@@ -3,12 +3,14 @@ package com.graduate.service.impl;
 import com.graduate.mapper.RoleMapper;
 import com.graduate.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * 权限的实现类
  */
+@Service
 public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleMapper roleMapper;

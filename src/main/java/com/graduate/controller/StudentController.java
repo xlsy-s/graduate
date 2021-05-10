@@ -5,8 +5,10 @@ import com.graduate.pojo.Student;
 import com.graduate.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/student")
@@ -49,10 +51,12 @@ public class StudentController {
      * 通过id获取指定的学生详情信息
      */
     @GetMapping("data/{id}")
-    public String dataId(@PathVariable Integer id, Model model){
+    public ModelAndView dataId(@PathVariable Integer id){
         Student studentById = studentService.findById(id);
-        model.addAttribute("studentById",studentById);
-        return "student/edit";
+        ModelAndView model = new ModelAndView();
+        model.addObject("studentById",studentById);
+        model.setViewName("student/edit");
+        return model;
     }
 
     /**

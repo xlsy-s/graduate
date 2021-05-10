@@ -28,23 +28,4 @@ public class LoginController {
     public String loginPage(){
         return "operate/login";
     }
-
-    /**
-     * 登录操作
-     */
-    @PostMapping("/Login")
-    @ResponseBody
-    public ResultDao login(Users users){
-        return null;
-    }
-
-
-    /**
-     * 退出登录
-     */
-    @GetMapping("/quit")
-    @ResponseBody
-    public ResultDao outPut(){
-        return new ResultDao(200,"退出成功");
-    }
 }

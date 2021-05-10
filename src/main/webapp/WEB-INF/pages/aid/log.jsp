@@ -94,11 +94,11 @@
 <div class="wrapper">
 
     <!-- 页面头部 -->
-    <jsp:include page="${pageContext.request.contextPath}aid/header.jsp"></jsp:include>
+    <jsp:include page="header.jsp"></jsp:include>
     <!-- 页面头部 /-->
 
     <!-- 导航侧栏 -->
-    <jsp:include page="${pageContext.request.contextPath}aid/beside.jsp"></jsp:include>
+    <jsp:include page="beside.jsp"></jsp:include>
     <!-- 导航侧栏 /-->
 
     <!-- 内容区域 -->
@@ -155,8 +155,7 @@
                                class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                             <tr>
-                                <th class="" style="padding-right: 0px"><input id="selall"
-                                                                               type="checkbox" class="icheckbox_square-blue"></th>
+                                <th class="" style="padding-right: 0px"><input id="selall" type="checkbox" class="icheckbox_square-blue"></th>
                                 <th class="sorting_asc">ID</th>
                                 <th class="sorting">访问时间</th>
                                 <th class="sorting">访问用户</th>
@@ -167,7 +166,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${sysLogs}" var="syslog">
                                 <tr>
                                     <td><input name="ids" type="checkbox"></td>
                                     <td>${syslog.id}</td>
@@ -178,9 +176,7 @@
                                     <td>${syslog.executionTime}毫秒</td>
                                     <td>${syslog.method}</td>
                                 </tr>
-                            </c:forEach>
                             </tbody>
-
                         </table>
                         <!--数据列表/-->
 
@@ -252,7 +248,7 @@
 
 
     <!-- 底部导航 -->
-    <jsp:include page="${pageContext.request.contextPath}aid/under.jsp"></jsp:include>
+    <jsp:include page="under.jsp"></jsp:include>
     <!-- 底部导航 /-->
 
 </div>
