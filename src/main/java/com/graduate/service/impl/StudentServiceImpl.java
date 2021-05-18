@@ -79,6 +79,28 @@ public class StudentServiceImpl implements StudentService {
     }
 
     /**
+     * 条件查询学生
+     * @param name
+     * @return
+     */
+    @Override
+    public ResultDao findIf(Integer page,Integer size,String name) {
+        PageHelper.startPage(page,size);
+        List<Student> students = studentMapper.findIf(name);
+        PageInfo pageInfo = new PageInfo(students);
+        return new ResultDao(200,"获取数据成功",pageInfo);
+    }
+
+    /**
+     * 添加学生
+     * @param student
+     */
+    @Override
+    public void createStudent(Student student) {
+        studentMapper.createStudent(student);
+    }
+
+    /**
      * 封装判断性别的方法
      */
     private String judgeSex(Integer studentGender){

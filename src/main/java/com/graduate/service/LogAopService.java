@@ -9,7 +9,7 @@ public interface LogAopService {
     /**
      * 查询所有
      */
-    ResultDao findAll();
+    ResultDao findAll(Integer pageNum,Integer pageSize);
 
     /**
      * 保存

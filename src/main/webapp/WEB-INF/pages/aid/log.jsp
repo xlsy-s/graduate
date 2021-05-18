@@ -165,7 +165,7 @@
                                 <th class="sorting">访问方法</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="dataBody">
                                 <tr>
                                     <td><input name="ids" type="checkbox"></td>
                                     <td>${syslog.id}</td>
@@ -180,26 +180,6 @@
                         </table>
                         <!--数据列表/-->
 
-                        <!--工具栏-->
-                        <div class="pull-left">
-                            <div class="form-group form-inline">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default" title="刷新"
-                                            onclick="window.location.reload();">
-                                        <i class="fa fa-refresh"></i> 刷新
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="box-tools pull-right">
-                            <div class="has-feedback">
-                                <input type="text" class="form-control input-sm"
-                                       placeholder="搜索"> <span
-                                    class="glyphicon glyphicon-search form-control-feedback"></span>
-                            </div>
-                        </div>
-                        <!--工具栏/-->
-
 
                     </div>
                     <!-- 数据表格 /-->
@@ -210,19 +190,12 @@
                 <!-- .box-footer-->
                 <div class="box-footer">
                     <div class="pull-left">
-                        <div class="form-group form-inline">
-                            总共2 页，共14 条数据。 每页 <select class="form-control">
-                            <option>10</option>
-                            <option>15</option>
-                            <option>20</option>
-                            <option>50</option>
-                            <option>80</option>
-                        </select> 条
+                        <div id="pageTotal" class="form-group form-inline">
+                            总共2 页，共14 条数据
                         </div>
                     </div>
-
                     <div class="box-tools pull-right">
-                        <ul class="pagination">
+                        <ul id="Pages" class="pagination">
                             <li><a href="#" aria-label="Previous">首页</a></li>
                             <li><a href="#">上一页</a></li>
                             <li><a href="#">1</a></li>
@@ -284,6 +257,82 @@
         // 激活导航位置
         setSidebarActive("log");
     });
+    $(function () {
+        $.ajax({
+            type: "get",
+            url: "${pageContext.request.contextPath}/log/page/list",
+            dataType: "json",
+            success:function (data) {
+                console.log(data)
+                if(data.code === 200){
+                    // 获取成功清空预留数据
+                    $('#dataBody').empty();
+                    $(data.data.list).each(function () {
+                        let tr=$('<tr>\n' +
+                            '                                    <td><input name="ids" type="checkbox"></td>\n' +
+                            '                                    <td>'+this.id+'</td>\n' +
+                            '                                    <td>'+this.visitTime+'</td>\n' +
+                            '                                    <td>'+this.username+'</td>\n' +
+                            '                                    <td>'+this.ip+'</td>\n' +
+                            '                                    <td>'+this.url+'</td>\n' +
+                            '                                    <td>'+this.executionTime+'毫秒</td>\n' +
+                            '                                    <td>'+this.method+'</td>\n' +
+                            '                                </tr>')
+                        $('#dataBody').append(tr);
+                    });
+                    // 显示总条数与总页数
+                    $('#pageTotal').text('总共'+data.data.pages+'页，共'+data.data.total+'条数据');
+                    // 清空原来的数据
+                    $('#Pages').empty();
+                    $('#Pages').append(
+                        '<li><a href="javascript:getDate('+1+','+data.data.pageSize+')" aria-label="Previous">首页</a></li>'
+                    );
+                    $('#Pages').append(
+                        '<li><a href="javascript:getDate('+(data.data.pageNum-1)+','+data.data.pageSize+')">上一页</a></li>'
+                    )
+                    $(data.data.navigatepageNums).each(function () {
+                        $('#Pages').append('<li><a href="javascript:getDate('+this+','+data.data.pageSize+')">'+this+'</a></li>')
+                    })
+                    $('#Pages').append(
+                        '<li><a href="javascript:getDate('+(data.data.pageNum+1)+','+data.data.pageSize+')">下一页</a></li>'
+                    )
+                    $('#Pages').append(
+                        '<li><a href="javascript:getDate('+data.data.pages+','+data.data.pageSize+')" aria-label="Next">尾页</a></li>'
+                    );
+                }
+            }
+        })
+    })
+    // 分页获取
+    function getDate(Page,Size) {
+        let param = {pageNum:Page,pageSize:Size}
+        $.ajax({
+            type: "get",
+            url: "${pageContext.request.contextPath}/log/page/list",
+            data: param,
+            dataType: "json",
+            success:function (data) {
+                console.log(data)
+                if(data.code === 200){
+                    // 获取成功清空预留数据
+                    $('#dataBody').empty();
+                    $(data.data.list).each(function () {
+                        let tr=$('<tr>\n' +
+                            '                                    <td><input name="ids" type="checkbox"></td>\n' +
+                            '                                    <td>'+this.id+'</td>\n' +
+                            '                                    <td>'+this.visitTime+'</td>\n' +
+                            '                                    <td>'+this.username+'</td>\n' +
+                            '                                    <td>'+this.ip+'</td>\n' +
+                            '                                    <td>'+this.url+'</td>\n' +
+                            '                                    <td>'+this.executionTime+'毫秒</td>\n' +
+                            '                                    <td>'+this.method+'</td>\n' +
+                            '                                </tr>')
+                        $('#dataBody').append(tr);
+                    });
+                }
+            }
+        })
+    }
 </script>
 </body>
 

@@ -49,4 +49,11 @@
             <security:password-encoder ref="passwordEncoder"/>
         </security:authentication-provider>
     </security:authentication-manager>
+    <!--开启注解支持-->
+    <security:global-method-security
+            jsr250-annotations="enabled"
+            secured-annotations="enabled"
+            pre-post-annotations="enabled"
+
+    />
  </beans>

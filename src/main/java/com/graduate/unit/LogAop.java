@@ -1,6 +1,7 @@
 package com.graduate.unit;
 
 
+import com.graduate.controller.ForgetController;
 import com.graduate.controller.LogAopController;
 import com.graduate.controller.LoginController;
 import com.graduate.mapper.LogAopMapper;
@@ -69,7 +70,7 @@ public class LogAop {
         String url = null;
         if(aClass!=null && method!=null &&
                 aClass!= LogAop.class && aClass!= LogAopController.class
-                && aClass != LoginController.class
+                && aClass != LoginController.class && aClass!= ForgetController.class
         ){
             // 获取类上的RequestMapping中的值
             RequestMapping classAnnotation = (RequestMapping) aClass.getAnnotation(RequestMapping.class);

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!-- 导航侧栏 -->
     <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
@@ -9,7 +10,7 @@
                     <img src="${pageContext.request.contextPath}/static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>xxx</p>
+                    <security:authentication property="principal.username"></security:authentication>
                     <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
                 </div>
             </div>
@@ -37,7 +38,7 @@
                 </li>
 
                 <!-- 菜单 -->
-
+                <security:authorize access="hasRole('ROLE_CHAIRMEN')">
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-gears (alias)"></i> <span>系统管理</span>
@@ -60,14 +61,14 @@
                             </a>
                         </li>
                         <li id="log">
-                            <a href="${pageContext.request.contextPath}/log/page">
+                            <a href="${pageContext.request.contextPath}/log/page?page=1&size=5">
                                 <i class="fa fa-circle-o"></i> 访问日志
                             </a>
                         </li>
 
                     </ul>
                 </li>
-
+                </security:authorize>
 
 
                 <li class="treeview">
@@ -78,6 +79,7 @@
                     </span>
                     </a>
                     <ul class="treeview-menu">
+                        <security:authorize access="hasRole('ROLE_CHAIRMEN')">
                         <li id="charts-flot">
                             <a href="#">
                                 <i class="fa fa-circle-o"></i> 院系列表
@@ -89,9 +91,9 @@
                                 <i class="fa fa-circle-o"></i> 教师列表
                             </a>
                         </li>
-
+                        </security:authorize>
                         <li id="student-list">
-                            <a href="${pageContext.request.contextPath}/student/page?page=1&size=5">
+                            <a href="${pageContext.request.contextPath}/student/page?pageNum=1&pageSize=5">
                                 <i class="fa fa-circle-o"></i> 学生列表
                             </a>
                         </li>
